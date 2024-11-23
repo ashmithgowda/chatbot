@@ -3,33 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Textile Factory Payment Reminder</title>
+  <title>Textile Payment Reminder</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <!-- Registration Form -->
-    <div class="form-container">
-      <h2>Register Buyer</h2>
-      <form id="registration-form">
-        <input type="text" id="buyer-name" placeholder="Buyer Name" required />
-        <input type="email" id="buyer-email" placeholder="Email" required />
-        <input type="number" id="buyer-due" placeholder="Due Amount (INR)" required />
-        <input type="date" id="buyer-due-date" required />
-        <button type="submit">Register</button>
-      </form>
-    </div>
+    <header>
+      <h1>Textile Factory Payment Reminder</h1>
+    </header>
 
-    <!-- Chatbot -->
-    <div class="chat-container">
-      <div id="chat-box" class="chat-box"></div>
-      <div class="chat-input">
+    <div id="chat-container">
+      <div id="chat-box" class="chat-box">
+        <div class="message bot">Hello! Please enter your name to proceed with payment details.</div>
+      </div>
+      <div class="input-container">
         <input type="text" id="user-input" placeholder="Type your name..." />
         <button id="send-btn">Send</button>
       </div>
     </div>
+
+    <div class="registration">
+      <h2>Register to Get Your Payment Details</h2>
+      <form id="registration-form">
+        <input type="text" id="buyer-name" placeholder="Full Name" required />
+        <input type="email" id="buyer-email" placeholder="Email Address" required />
+        <input type="number" id="buyer-due" placeholder="Amount Due (INR)" required />
+        <input type="date" id="buyer-due-date" required />
+        <button type="submit">Register</button>
+      </form>
+    </div>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
