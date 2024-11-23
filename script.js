@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.getElementById("send-btn");
   const registrationForm = document.getElementById("registration-form");
 
-  // Buyers stored in localStorage
   const buyers = JSON.parse(localStorage.getItem("buyers")) || {};
 
   const saveBuyers = () => {
@@ -37,16 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const buyer = buyers[input.trim()];
     if (buyer) {
       addMessage(
-        `Hi ${buyer.name}! You have ₹${buyer.due} due by ${buyer.dueDate}.
-        <br>
+        `Hi ${buyer.name}! You have ₹${buyer.due} due by ${buyer.dueDate}.<br>
         <a href="upi://pay?pa=${UPI_ID}&pn=${buyer.name}&am=${buyer.due}&cu=INR&tn=Textile+Payment" target="_blank">
-          Pay Now
-        </a>
-        <br>
-        <button onclick="generateInvoice(${JSON.stringify(buyer)})">Download Invoice</button>
-        <br>
-        <br>
-        <button onclick="confirmPayment()">Confirm Payment</button>`,
+        Pay Now
+        </a><br><button onclick="generateInvoice(${JSON.stringify(buyer)})">Download Invoice</button><br>
+        <br><button onclick="confirmPayment()">Confirm Payment</button>`,
         "bot"
       );
     } else {
@@ -54,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Payment Confirmation - Simple UI Flow
   const confirmPayment = () => {
     addMessage("Please confirm your payment by clicking the button below.", "bot");
     addMessage(
@@ -63,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   };
 
-  // Mark Payment as Complete (for tracking in the system)
   const markPaymentComplete = () => {
     addMessage("Thank you for confirming! Your payment will be verified soon.", "bot");
   };
@@ -84,4 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
     saveBuyers();
 
     alert(`${name} has been registered!`);
-    registration
+    registrationForm.reset();
+  });
+
+  sendBtn.addEventListener("click", () => {
+    const input = userInput.value.trim();
+    if (input) {
+      addMessage(input, "user");
+      setTimeout(() => handleResponse(input), 500);
+      userInput.value = "";
+    }
+  });
+});
