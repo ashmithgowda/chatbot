@@ -1,76 +1,126 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const chatBox = document.getElementById("chat-box");
-  const userInput = document.getElementById("user-input");
-  const sendBtn = document.getElementById("send-btn");
-  const registrationForm = document.getElementById("registration-form");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
 
-  // Buyers stored in localStorage
-  const buyers = JSON.parse(localStorage.getItem("buyers")) || {};
+body {
+  background: linear-gradient(135deg, #4d91ff, #6b8cc7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-  const saveBuyers = () => {
-    localStorage.setItem("buyers", JSON.stringify(buyers));
-  };
+.container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
 
-  const addMessage = (text, sender) => {
-    const message = document.createElement("div");
-    message.className = `message ${sender}`;
-    message.innerHTML = text;
-    chatBox.appendChild(message);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  };
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  const generateInvoice = (buyer) => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+h1 {
+  font-size: 24px;
+  color: #333;
+}
 
-    doc.text(`Invoice for ${buyer.name}`, 10, 10);
-    doc.text(`Amount Due: ₹${buyer.due}`, 10, 20);
-    doc.text(`Due Date: ${buyer.dueDate}`, 10, 30);
-    doc.text("Thank you for doing business with us!", 10, 50);
+.chat-box {
+  border: 2px solid #ddd;
+  padding: 10px;
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
 
-    doc.save(`${buyer.name}-invoice.pdf`);
-  };
+.message {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 75%;
+}
 
-  const UPI_ID = "9611596961@ybl"; // Your UPI ID
+.bot {
+  background-color: #007bff;
+  color: white;
+  margin-left: 0;
+  align-self: flex-start;
+}
 
-  const handleResponse = (input) => {
-    const buyer = buyers[input.trim()];
-    if (buyer) {
-      addMessage(
-        `Hi ${buyer.name}! You have ₹${buyer.due} due by ${buyer.dueDate}.
-        <br>
-        <a href="upi://pay?pa=${UPI_ID}&pn=${buyer.name}&am=${buyer.due}&cu=INR&tn=Textile+Payment" target="_blank">
-          Pay Now
-        </a>
-        <br>
-        <button onclick="generateInvoice(${JSON.stringify(buyer)})">Download Invoice</button>`,
-        "bot"
-      );
-    } else {
-      addMessage("I couldn't find your details. Please register first.", "bot");
-    }
-  };
+.user {
+  background-color: #28a745;
+  color: white;
+  margin-right: 0;
+  align-self: flex-end;
+}
 
-  registrationForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("buyer-name").value.trim();
-    const email = document.getElementById("buyer-email").value.trim();
-    const due = document.getElementById("buyer-due").value.trim();
-    const dueDate = document.getElementById("buyer-due-date").value.trim();
+.input-container {
+  display: flex;
+  gap: 10px;
+}
 
-    buyers[name] = { name, email, due, dueDate };
-    saveBuyers();
+#user-input {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
 
-    alert(`${name} has been registered!`);
-    registrationForm.reset();
-  });
+#send-btn {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  sendBtn.addEventListener("click", () => {
-    const input = userInput.value.trim();
-    if (input) {
-      addMessage(input, "user");
-      setTimeout(() => handleResponse(input), 500);
-      userInput.value = "";
-    }
-  });
-});
+#send-btn:hover {
+  background-color: #0056b3;
+}
+
+.registration {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.registration h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.registration form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.registration input {
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.registration button {
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.registration button:hover {
+  background-color: #218838;
+}
